@@ -25,9 +25,9 @@ export default class MyNavbar extends Component {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Nav.Link className="me-2" href="/about">About</Nav.Link>
-              <Nav.Link className="me-2" href="/cleanup">Cleanup</Nav.Link>
-              <Nav.Link className="me-2" href="/leaderboard">Leaderboards</Nav.Link>
+              <Nav.Link className="me-2" href="/">Home</Nav.Link>
+              <Nav.Link className="me-2" href="/littermap">Litter Map</Nav.Link>
+              {/* <Nav.Link className="me-2" href="/leaderboard">Leaderboards</Nav.Link>
               <Nav.Link className="me-2" href="/global">Global Map</Nav.Link>
               <Nav.Link className="me-2" href="/worldcup">World Cup</Nav.Link>
               <Nav.Link className="me-2" href="/community">Community</Nav.Link>
@@ -35,7 +35,7 @@ export default class MyNavbar extends Component {
               <Nav.Link className="me-2" href="/signup">Signup</Nav.Link>
               <Nav.Link className="me-2" href="/upload">Upload</Nav.Link>
               <Nav.Link className="me-2" href="/tag">Tag Litter</Nav.Link>
-              <Nav.Link className="me-2" href="/gallery">Gallery</Nav.Link>
+              <Nav.Link className="me-2" href="/gallery">Gallery</Nav.Link> */}
               <Row className="d-flex flex-row align-items-center">
                 <NavDropdown align="end" title="More" className="me-2">
                   <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
