@@ -6,14 +6,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import MyNavbar from './Components/Layout/MyNavbar';
 import MyComponent from './Components/Pages/LitterMap';
-import LitterList from './Components/Pages/LitterList';
+import StaffList from './Components/Pages/StaffList';
 
 function App() {
   return (
     <div>
         <MyNavbar />
         {/* <MyComponent />  Litter Map */}
-        <LitterList />
+        <StaffList />
     </div>
 
     

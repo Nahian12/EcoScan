@@ -2,6 +2,7 @@ import { Navigate, createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import MyNavbar from "./Components/Layout/MyNavbar";
 import LitterMap from "./Components/Pages/LitterMap";
+import React from 'react'
 
 
 const routes = createBrowserRouter([

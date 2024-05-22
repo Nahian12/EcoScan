@@ -1,5 +1,6 @@
 import React from 'react'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import Layout from '../Layout/Layout';
 
 const containerStyle = {
   width: '100vw',
@@ -32,6 +33,7 @@ function MyComponent() {
   }, [])
 
   return isLoaded ? (
+    <Layout>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -42,6 +44,7 @@ function MyComponent() {
         { /* Child components, such as markers, info windows, etc. */ }
         <></>
       </GoogleMap>
+    </Layout>
   ) : <></>
 }
 

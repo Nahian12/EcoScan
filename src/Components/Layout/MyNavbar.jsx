@@ -26,6 +26,9 @@ export default class MyNavbar extends Component {
               navbarScroll
             >
               <Nav.Link className="me-2" href="/">Home</Nav.Link>
+              <Nav.Link className="me-2" href="/sign-in">Sign In</Nav.Link>
+              <Nav.Link className="me-2" href="/profile">Profile</Nav.Link>
+
               <Nav.Link className="me-2" href="/littermap">Litter Map</Nav.Link>
               {/* <Nav.Link className="me-2" href="/leaderboard">Leaderboards</Nav.Link>
               <Nav.Link className="me-2" href="/global">Global Map</Nav.Link>
