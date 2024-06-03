@@ -5,36 +5,49 @@ import { ListGroup } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import DeleteStaff from "./DeleteStaff";
+import Layout from "../Layout/Layout";
+import { useRealtime } from 'react-supabase'
+import AddStaff from "./AddStaff";
 
 
 export default function StaffList() {
-    const [staffList, setStaffList] = useState([]);
+
+    const [result, reexecute] = useRealtime('staff')
+    const { data: staffList, error, fetching } = result;
+
+    // const [staffList, setStaffList] = useState([]);
     
-    async function fetchData() {
-        let { data: staff, error } = await supabase.from('staff').select('*')
+    // async function fetchData() {
+    //     let { data: staff, error } = await supabase.from('staff').select('*')
 
-        setStaffList(staff);    
-    }
+    //     setStaffList(staff);    
+    // }
 
-    useEffect(() => {
-        fetchData();
-    }, [])
+    // useEffect(() => {
+    //     fetchData();
+    // }, [])
 
-    if(!staffList.length) {
+    if(!staffList || !staffList.length) {
         return (
-            <h1>No data</h1>
+            <Layout>
+                <AddStaff />
+                <h1>No data</h1>
+            </Layout>
         )
     }
 
     return (
-        <div className="app-layout">
-            <ListGroup>
-                {staffList.map(staff => (
-                    <ListGroup.Item key={staff.id}>{staff.text} 
-                    <DeleteStaff id={staff.id}/>
-                    </ListGroup.Item>
-                ))}
-            </ListGroup>
-        </div>
+        <Layout>
+            <AddStaff />
+            <div className="app-layout">
+                <ListGroup>
+                    {staffList.map(staff => (
+                        <ListGroup.Item key={staff.id}>{staff.text} 
+                        <DeleteStaff id={staff.id}/>
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
+            </div>
+        </Layout>
     );
 }

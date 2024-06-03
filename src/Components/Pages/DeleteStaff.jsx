@@ -18,6 +18,7 @@ export default function DeleteStaff({id}) {
         .from('staff').delete().eq('id', id)
         setLoading(false);
 
+        // Show toast
         <Toast>
             <Toast.Header>
                 <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />

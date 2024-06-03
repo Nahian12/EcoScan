@@ -39,22 +39,22 @@ function useProvideAuth() {
         setUser(null);
     }
 
-    useEffect(() => {
-        const user = supabase.auth.getUser()
-        setUser(user)
+    // useEffect(() => {
+    //     const user = supabase.auth.getUser()
+    //     setUser(user)
 
-        const auth = supabase.auth.onAuthStateChange((event, session) => {
-            if(event === 'SIGNED_IN') {
-                setUser(session.user)
-            }
+    //     const auth = supabase.auth.onAuthStateChange((event, session) => {
+    //         if(event === 'SIGNED_IN') {
+    //             setUser(session.user)
+    //         }
 
-            if(event === 'SIGNED_OUT') {
-                setUser(null)
-            }
-        })
+    //         if(event === 'SIGNED_OUT') {
+    //             setUser(null)
+    //         }
+    //     })
 
-        return () => auth.data.unsubscribe();
-    }, [])
+    //     return () => auth.data.unsubscribe();
+    // }, [])
 
     return {
         user, login, logout
