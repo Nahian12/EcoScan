@@ -6,26 +6,40 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import DeleteStaff from "./DeleteStaff";
 import Layout from "../Layout/Layout";
-import { useRealtime } from 'react-supabase'
+// import { useRealtime } from 'react-supabase'
 import AddStaff from "./AddStaff";
 
 
 export default function StaffList() {
 
-    const [result, reexecute] = useRealtime('staff')
-    const { data: staffList, error, fetching } = result;
+    // const [result, reexecute] = useRealtime('staff')
+    // const { data: staffList, error, fetching } = result;
 
-    // const [staffList, setStaffList] = useState([]);
+    const [staffList, setStaffList] = useState([]);
+
+    useEffect(() => {
+        const channels = supabase.channel('custom-all-channel')
+        .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'staff' },
+        (payload) => {
+            // console.log('Change received!', payload)
+        }
+        )
+        .subscribe()
+        
+    }, [fetchData()])
     
-    // async function fetchData() {
-    //     let { data: staff, error } = await supabase.from('staff').select('*')
+    
+    async function fetchData() {
+        let { data: staff, error } = await supabase.from('staff').select('*')
 
-    //     setStaffList(staff);    
-    // }
+        setStaffList(staff);    
+    }
 
-    // useEffect(() => {
-    //     fetchData();
-    // }, [])
+    useEffect(() => {
+        fetchData();
+    }, [])
 
     if(!staffList || !staffList.length) {
         return (

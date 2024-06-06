@@ -34,6 +34,6 @@ export default function DeleteStaff({id}) {
     return (
         <FontAwesomeIcon icon={faEnvelope} 
         onClick={handleDelete}
-        isLoading={loading}/>
+        isloading={loading.toString()}/>
     )
 }
