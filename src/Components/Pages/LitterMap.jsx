@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
 import Layout from '../Layout/Layout';
 import { Modal, Button, ListGroup, Form } from 'react-bootstrap';
 import supabase from '../../supabase';
+import { readLitterData } from './ReadLitterData';
 
 const containerStyle = {
   width: '100vw',
@@ -20,11 +21,25 @@ function MyComponent() {
     googleMapsApiKey: "AIzaSyBhrHz4b4dw5-HL_rvN2p4wGDCTQQuBql0" //process.env.MY_GOOGLE_MAPS_API_KEY
   })
 
-  const [map, setMap] = React.useState(null)
+  const [map, setMap] = React.useState(null);
+  const [litterData, setLitterData] = useState([]);
   const [selected, setSelected] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [staff, setStaff] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState('');
+
+  useEffect(() => {
+    const fetchLitterData = async () => {
+      const data = await readLitterData();
+      setLitterData(data);
+    };
+
+    fetchLitterData();
+  }, []);
+
+  useEffect(() => {
+    console.log(litterData); //console.log to log updated litterData
+  }, [litterData]);
 
   const onLoad = React.useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds(center);
@@ -37,8 +52,8 @@ function MyComponent() {
     setMap(null)
   }, [])
 
-  const handleMarkerClick = () => {
-    setSelected(center);
+  const handleMarkerClick = (litter) => {
+    setSelected(litter);
   };
 
   const handleInfoWindowClose = () => {
@@ -56,18 +71,34 @@ function MyComponent() {
     } else {
       setStaff(staff);
       setShowModal(true);
+      console.log(staff)
     }
   };
 
   const handleCloseModal = () => setShowModal(false);
 
   const handleStaffChange = (e) => {
+    console.log(e.target.value)
     setSelectedStaff(e.target.value);
   };
 
-  const handleAssign = () => {
-    console.log(`Assigned ${selectedStaff} to location ${center.lat}, ${center.lng}`);
-    handleCloseModal();
+  const handleAssign = async () => {
+    if (selected) {
+      console.log(selected + "hi")
+      const { data, error } = await supabase
+        .from('litter')
+        .update({ assigned_staff: selectedStaff })
+        .eq('id', litterData[0].id)
+        .select();
+//Ekhane 0 diya, thik kora lagbe
+      if (error) {
+        console.error('Error assigning staff:', error);
+      } else {
+        console.log(`Assigned ${selectedStaff} to location ${selected.latitude}, ${selected.longitude}`);
+        setSelected({ ...selected, assigned_staff: selectedStaff });
+        handleCloseModal();
+      }
+    }
   };
 
   return isLoaded ? (
@@ -79,14 +110,23 @@ function MyComponent() {
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
-        <Marker position={center} onClick={handleMarkerClick} />
+        {litterData.map((litter) => (
+          <Marker
+            key={litter.id}
+            position={{ lat: litter.latitude, lng: litter.longitude }}
+            onClick={() => handleMarkerClick(litter)}
+          />
+        ))}
         {selected && (
-          <InfoWindow position={center} onCloseClick={handleInfoWindowClose}>
+          <InfoWindow
+            position={{ lat: selected.latitude, lng: selected.longitude }}
+            onCloseClick={handleInfoWindowClose}
+          >
             <div>
               <h4>Details</h4>
-              <p>2 x Plastic Bottles</p>
-              <p>5 x Cigarette Buds</p>
-              <p>4 x Aluminum Cans</p>
+              {selected.litter.split(',').map((item, index) => (
+                <p key={index}>{item.trim()}</p>
+              ))}
               <button onClick={handleAssignStaffClick}>Assign Staff</button>
             </div>
           </InfoWindow>

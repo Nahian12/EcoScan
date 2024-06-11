@@ -3,7 +3,7 @@ import supabase from "../../supabase";
 import { useEffect } from "react";
 import { ListGroup } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faTrash } from '@fortawesome/free-solid-svg-icons'
 import Toast from 'react-bootstrap/Toast'
 
 
@@ -32,7 +32,7 @@ export default function DeleteStaff({id}) {
 
 
     return (
-        <FontAwesomeIcon icon={faEnvelope} 
+        <FontAwesomeIcon icon={faTrash} 
         onClick={handleDelete}
         isloading={loading.toString()}/>
     )
