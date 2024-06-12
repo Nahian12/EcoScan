@@ -18,23 +18,20 @@ export default function AddStaff() {
     }
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Form.Label htmlFor="inputName">Add Staff</Form.Label>
-            <Form.Control
-                type="text"
-                id="inputName"
-                aria-describedby="textHelpBlock"
-                placeholder="Enter Name"
-                value={text}
-                onChange={e => setText(e.target.value)}
-            />
-            <Form.Text id="textHelpBlock" muted>
-                Enter name of staff
-            </Form.Text>
-            <Button variant="primary" type="submit" disabled={loading}>
-                {loading ? 'Loading…' : 'Submit'}
+        <Form onSubmit={handleSubmit} style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <h2 style={{ fontSize: '24px', margin: '20px' }}>Add Staff</h2>
+            <Form.Group controlId="inputName" style={{ margin: '0 auto', width: 'fit-content' }}>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter Name"
+                    value={text}
+                    onChange={e => setText(e.target.value)}
+                    style={{ width: '300px', marginBottom: '10px', margin: '0 auto' }}
+                />
+            </Form.Group>
+            <Button variant="primary" type="submit" disabled={loading} style={{ width: '200px', marginTop: '10px', marginBottom: '10px' }}>
+                {loading ? 'Loading...' : 'Submit'}
             </Button>
         </Form>
-        
     )
 }

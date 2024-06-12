@@ -88,7 +88,7 @@ function MyComponent() {
       const { data, error } = await supabase
         .from('litter')
         .update({ assigned_staff: selectedStaff })
-        .eq('id', litterData[0].id)
+        .eq('id', selected.id)
         .select();
 //Ekhane 0 diya, thik kora lagbe
       if (error) {
@@ -100,6 +100,14 @@ function MyComponent() {
       }
     }
   };
+
+  useEffect(() => {
+    if (selected && selected.assigned_staff) {
+        setSelectedStaff(selected.assigned_staff);
+    } else {
+        setSelectedStaff('');
+    }
+  }, [selected]);
 
   return isLoaded ? (
     <Layout>
@@ -146,11 +154,11 @@ function MyComponent() {
             <Form.Select value={selectedStaff} onChange={handleStaffChange}>
               <option value="">Select a staff member</option>
               {staff.map((member) => (
-                <option key={member.id} value={member.text}>
-                  {member.text}
-                </option>
+                  <option key={member.id} value={member.text}>
+                      {member.text}
+                  </option>
               ))}
-            </Form.Select>
+          </Form.Select>
           </Form.Group>
         </Form>
       </Modal.Body>
